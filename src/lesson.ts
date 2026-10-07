@@ -19,7 +19,9 @@ export type Lesson = {
   readonly cornerTag: string; // "SAME WATERS. BRIGHTER BOATERS."
   readonly hero: {
     readonly image?: string; // public/heroes/xx.png (painted hero, optional)
-    readonly kind: "image" | "blast-chart"; // fallback hero when no painting exists
+    readonly cutout?: string; // public/heroes/xx-fg.png (rembg cutout of the subject, optional, enables 2.5D)
+    readonly kind: "image" | "blast-chart" | "line"; // fallback heroes when no painting exists
+    readonly text?: string; // for kind "line": the big handwritten hook
   };
   readonly meaning: { readonly label: string; readonly text: string };
   readonly examples: { readonly label: string; readonly items: readonly ExampleItem[] };

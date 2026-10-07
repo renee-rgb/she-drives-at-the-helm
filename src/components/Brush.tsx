@@ -1,5 +1,7 @@
 import React from "react";
+import { Img, staticFile } from "remotion";
 import { C, F } from "../theme";
+import { BRUSHES } from "../assets.generated";
 
 // Pink brush-stroke highlight with a label on it. `reveal` 0..1 wipes it on left to right.
 export const BrushLabel: React.FC<{
@@ -13,8 +15,12 @@ export const BrushLabel: React.FC<{
 }> = ({ text, reveal, size = 44, color = C.highlight, ink = C.ink, seed = 2, width }) => {
   const w = width ?? Math.round(text.length * size * 0.66 + size * 1.2);
   const h = Math.round(size * 1.55);
+  const brush = BRUSHES.length ? BRUSHES[seed % BRUSHES.length] : null;
   return (
     <div style={{ position: "relative", width: w, height: h, clipPath: `inset(0 ${(1 - reveal) * 100}% 0 0)` }}>
+      {brush ? (
+        <Img src={staticFile(brush)} style={{ position: "absolute", left: -size * 0.3, top: -h * 0.25, width: w + size * 0.6, height: h * 1.5, objectFit: "fill", opacity: 0.95, mixBlendMode: "multiply" }} />
+      ) : (
       <svg width={w} height={h} style={{ position: "absolute", inset: 0 }}>
         <defs>
           <filter id={`rough${seed}`} x="-10%" y="-30%" width="120%" height="160%">
@@ -27,6 +33,7 @@ export const BrushLabel: React.FC<{
           <rect x={size * 0.35} y={h * 0.3} width={w - size * 0.7} height={h * 0.5} rx={h * 0.1} fill={color} opacity="0.7" transform={`rotate(-0.8 ${w / 2} ${h / 2})`} />
         </g>
       </svg>
+      )}
       <div
         style={{
           position: "absolute",

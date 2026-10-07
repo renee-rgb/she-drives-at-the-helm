@@ -2,7 +2,9 @@ import React from "react";
 import * as Icons from "lucide-react";
 import { Img, staticFile } from "remotion";
 import { C, F } from "../theme";
-import { lin, pop, prog, window01 } from "../anim";
+import { lin, pop, prog, window01, stamp } from "../anim";
+import { DrawIcon } from "./DrawIcon";
+import { WaveLines, RoughDefs } from "./Rough";
 import { BrushLabel, Underline } from "./Brush";
 import { Blast } from "./Blast";
 import type { Lesson } from "../lesson";
@@ -26,10 +28,35 @@ const iconByName = (name: string): React.FC<any> | null => {
 export const Hero: React.FC<{ readonly t: number; readonly end: number; readonly lesson: Lesson }> = ({ t, end, lesson }) => {
   const a = window01(t, 0.3, end, 0.3);
   if (lesson.hero.kind === "image" && lesson.hero.image) {
+    // 2.5D: background drifts and zooms slowly, cutout subject moves a touch less and casts a shadow.
+    const drift = lin(t, 0, end);
+    const z = 1 + 0.07 * drift;
     return (
       <Stage opacity={a}>
-        <div style={{ position: "absolute", left: 90, top: 0, width: 900, height: STAGE_H, overflow: "hidden", borderRadius: 28, scale: String(1 + 0.04 * lin(t, 0, end)) }}>
-          <Img src={staticFile(lesson.hero.image)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", left: 60, top: 0, width: 960, height: STAGE_H + 40, overflow: "hidden", borderRadius: 30, boxShadow: "0 24px 60px rgba(60,10,40,0.18)", rotate: "-1.2deg" }}>
+          <Img src={staticFile(lesson.hero.image)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", scale: String(z), translate: `${-18 * drift}px ${8 * drift}px` }} />
+          {lesson.hero.cutout && (
+            <Img src={staticFile(lesson.hero.cutout)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", scale: String(1 + 0.11 * drift), translate: `${10 * drift}px ${-6 * drift}px`, filter: "drop-shadow(0 18px 22px rgba(30,10,30,0.35))" }} />
+          )}
+          <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 90px rgba(120,30,80,0.18)" }} />
+        </div>
+        {/* tape corners */}
+        {[[40, -14, -8], [930, -14, 6]].map(([x, y, r], i) => (
+          <div key={i} style={{ position: "absolute", left: x, top: y, width: 110, height: 34, background: "rgba(255,255,255,0.55)", border: "1px solid rgba(0,0,0,0.08)", rotate: `${r}deg`, opacity: prog(t, 0.5, 0.9) }} />
+        ))}
+      </Stage>
+    );
+  }
+  if (lesson.hero.kind === "line") {
+    const txt = lesson.hero.text ?? lesson.cornerScript;
+    const w = Math.min(900, Math.round(txt.length * 72 * 0.4));
+    return (
+      <Stage opacity={a}>
+        <div style={{ margin: "150px auto 0", width: 900, textAlign: "center", fontFamily: F.script, fontWeight: 700, fontSize: 84, lineHeight: 1.1, color: C.ink, rotate: "-3deg", scale: String(0.96 + 0.04 * prog(t, 0.3, 1.0)) }}>
+          {txt}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Underline width={w} draw={prog(t, 0.8, 1.8)} thick={14} />
+          </div>
         </div>
       </Stage>
     );
@@ -54,8 +81,8 @@ export const Meaning: React.FC<{ readonly t: number; readonly start: number; rea
   const a = window01(t, start, end, 0.3);
   return (
     <Stage opacity={a} y={(1 - prog(k, 0, 0.5)) * 24}>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 150 }}>
-        <BrushLabel text={lesson.meaning.label} reveal={prog(k, 0.05, 0.6)} size={54} seed={3} />
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 150, ...stamp(k, 0.05) }}>
+        <BrushLabel text={lesson.meaning.label} reveal={1} size={54} seed={3} />
       </div>
       <div style={{ margin: "56px auto 0", width: 900, textAlign: "center", fontFamily: F.body, fontWeight: 600, fontSize: 56, lineHeight: 1.25, color: C.ink, opacity: prog(k, 0.45, 0.9) }}>
         {lesson.meaning.text}
@@ -73,8 +100,8 @@ export const Examples: React.FC<{ readonly t: number; readonly start: number; re
   const stagger = Math.min(2.4, (end - start - 2.5) / items.length);
   return (
     <Stage opacity={a}>
-      <div style={{ position: "absolute", left: 90, top: 0 }}>
-        <BrushLabel text={lesson.examples.label} reveal={prog(k, 0.05, 0.6)} size={46} seed={5} />
+      <div style={{ position: "absolute", left: 90, top: 0, transformOrigin: "left center", ...stamp(k, 0.05) }}>
+        <BrushLabel text={lesson.examples.label} reveal={1} size={46} seed={5} />
       </div>
       <div style={{ position: "absolute", left: 90, top: 110, width: 920 }}>
         {items.map((it, i) => {
@@ -90,7 +117,7 @@ export const Examples: React.FC<{ readonly t: number; readonly start: number; re
                   <Blast pattern={it.icon.slice(6)} t={rowT} size={items.length > 4 ? 44 : 56} />
                 ) : (
                   <div style={{ width: 76, height: 76, borderRadius: 38, border: `4px solid ${C.pink}`, display: "flex", alignItems: "center", justifyContent: "center", scale: String(pop(rowT, 0, 0.4)) }}>
-                    {Icon ? <Icon size={40} color={C.ink} strokeWidth={2.4} /> : null}
+                    <DrawIcon name={it.icon} draw={prog(rowT, 0.15, 0.9)} size={40} color={C.ink} strokeWidth={2.4} />
                   </div>
                 )}
               </div>
@@ -116,16 +143,17 @@ export const Examples: React.FC<{ readonly t: number; readonly start: number; re
 export const Tip: React.FC<{ readonly t: number; readonly start: number; readonly end: number; readonly lesson: Lesson }> = ({ t, start, end, lesson }) => {
   const k = t - start;
   const a = window01(t, start, end, 0.3);
-  const w = Math.round(lesson.tip.text.length * 116 * 0.42);
+  const fs = lesson.tip.text.length > 20 ? 92 : 116;
+  const w = Math.min(900, Math.round(lesson.tip.text.length * fs * 0.42));
   return (
     <Stage opacity={a} y={(1 - prog(k, 0, 0.5)) * 24}>
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 22, marginTop: 130 }}>
-        <Icons.Lightbulb size={64} color={C.ink} strokeWidth={2.2} style={{ scale: String(pop(k, 0.1, 0.5)) }} />
-        <BrushLabel text={lesson.tip.label} reveal={prog(k, 0.05, 0.6)} size={54} seed={7} />
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 22, marginTop: 130, ...stamp(k, 0.05) }}>
+        <DrawIcon name="lightbulb" draw={prog(k, 0.2, 1.0)} size={64} color={C.ink} strokeWidth={2.2} />
+        <BrushLabel text={lesson.tip.label} reveal={1} size={54} seed={7} />
       </div>
-      <div style={{ margin: "60px auto 0", width: w, textAlign: "center", fontFamily: F.script, fontWeight: 700, fontSize: 116, color: C.ink, opacity: prog(k, 0.4, 0.8), rotate: "-3deg" }}>
+      <div style={{ margin: "60px auto 0", width: 920, textAlign: "center", fontFamily: F.script, fontWeight: 700, fontSize: fs, lineHeight: 1.05, color: C.ink, opacity: prog(k, 0.4, 0.8), rotate: "-3deg" }}>
         {lesson.tip.text}
-        <Underline width={w} draw={prog(k, 0.6, 1.3)} thick={14} />
+        <div style={{ display: "flex", justifyContent: "center" }}><Underline width={w} draw={prog(k, 0.6, 1.3)} thick={14} /></div>
       </div>
     </Stage>
   );
