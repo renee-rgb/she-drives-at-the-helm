@@ -22,6 +22,8 @@ export type Lesson = {
     readonly cutout?: string; // public/heroes/xx-fg.png (rembg cutout of the subject, optional, enables 2.5D)
     readonly kind: "image" | "blast-chart" | "line"; // fallback heroes when no painting exists
     readonly text?: string; // for kind "line": the big handwritten hook
+    readonly prompt?: string; // subject sentence; CI paints the hero from it when image is missing
+    readonly seed?: number; // change to get a different painting
   };
   readonly meaning: { readonly label: string; readonly text: string };
   readonly examples: { readonly label: string; readonly items: readonly ExampleItem[] };

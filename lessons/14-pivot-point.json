@@ -6,24 +6,60 @@
   "cornerScript": "Plan the Swing",
   "scriptLine": "A boat doesn't slide. It pivots.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
-  "hero": { "kind": "line" },
-  "meaning": { "label": "", "text": "" },
-  "examples": { "label": "", "items": [] },
-  "tip": { "label": "QUICK TIP", "text": "Let the motor do it" },
+  "hero": {
+    "kind": "line",
+    "prompt": "A white runabout tied alongside a wooden dock, seen from above at an angle, calm water, mountains behind.",
+    "seed": 7
+  },
+  "meaning": {
+    "label": "",
+    "text": ""
+  },
+  "examples": {
+    "label": "",
+    "items": []
+  },
+  "tip": {
+    "label": "QUICK TIP",
+    "text": "Let the motor do it"
+  },
   "cta": "Get on the list. Link in bio.",
   "footnote": "TECHNIQUE: RENEE TOFT, USCG MASTER CAPTAIN",
   "durationSeconds": 23,
-  "beats": { "meaning": 3.0, "examples": 8.6, "tip": 18.6, "cta": 20.6 },
+  "beats": {
+    "meaning": 3.0,
+    "examples": 8.6,
+    "tip": 18.6,
+    "cta": 20.6
+  },
   "diagram": {
     "kind": "pivot",
     "cards": [
-      { "at": 3.0, "end": 7.6, "text": "Push the bow by hand, *the stern swings in.*" },
-      { "at": 8.6, "end": 14.0, "text": "Let the *motor* move the stern." },
-      { "at": 14.0, "end": 18.6, "text": "Then back away *clean.*" }
+      {
+        "at": 3.0,
+        "end": 7.6,
+        "text": "Push the bow by hand, *the stern swings in.*"
+      },
+      {
+        "at": 8.6,
+        "end": 14.0,
+        "text": "Let the *motor* move the stern."
+      },
+      {
+        "at": 14.0,
+        "end": 18.6,
+        "text": "Then back away *clean.*"
+      }
     ]
   },
   "vo": [
-    { "beat": "tip", "cue": "Let the motor" },
-    { "beat": "cta", "cue": "Get on the list" }
+    {
+      "beat": "tip",
+      "cue": "Let the motor"
+    },
+    {
+      "beat": "cta",
+      "cue": "Get on the list"
+    }
   ]
 }

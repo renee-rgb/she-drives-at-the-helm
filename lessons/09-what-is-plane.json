@@ -6,7 +6,12 @@
   "cornerScript": "Get on Plane",
   "scriptLine": "Slow: pushing water. Fast: riding on it.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
-  "hero": { "kind": "line", "text": "There's a speed where your boat stops pushing water and starts riding on it." },
+  "hero": {
+    "kind": "line",
+    "text": "There's a speed where your boat stops pushing water and starts riding on it.",
+    "prompt": "A white runabout up on plane, bow lifted, white spray behind, calm lake and desert mountains.",
+    "seed": 7
+  },
   "meaning": {
     "label": "WHAT IT MEANS",
     "text": "At slow speed the hull sits deep and pushes water. With enough speed it lifts and skims on top. That's on plane."
@@ -14,21 +19,53 @@
   "examples": {
     "label": "GETTING THERE",
     "items": [
-      { "icon": "arrow-down", "label": "Trim all the way down first" },
-      { "icon": "arrow-up-right", "label": "Throttle up: the bow rises, the stern digs in" },
-      { "icon": "waves", "label": "Then the bow drops and the boat levels out" },
-      { "icon": "gauge", "label": "Ease the throttle, bump the trim up a touch" }
+      {
+        "icon": "arrow-down",
+        "label": "Trim all the way down first"
+      },
+      {
+        "icon": "arrow-up-right",
+        "label": "Throttle up: the bow rises, the stern digs in"
+      },
+      {
+        "icon": "waves",
+        "label": "Then the bow drops and the boat levels out"
+      },
+      {
+        "icon": "gauge",
+        "label": "Ease the throttle, bump the trim up a touch"
+      }
     ]
   },
-  "tip": { "label": "QUICK TIP", "text": "Bow up, then level = on plane" },
+  "tip": {
+    "label": "QUICK TIP",
+    "text": "Bow up, then level = on plane"
+  },
   "cta": "Get on the list. Link in bio.",
-  "footnote": "SOURCES: ACE BOATER · BOATING MAGAZINE · DISCOVER BOATING",
+  "footnote": "SOURCES: ACE BOATER \u00b7 BOATING MAGAZINE \u00b7 DISCOVER BOATING",
   "durationSeconds": 23,
-  "beats": { "meaning": 3.6, "examples": 6.8, "tip": 18.4, "cta": 20.6 },
+  "beats": {
+    "meaning": 3.6,
+    "examples": 6.8,
+    "tip": 18.4,
+    "cta": 20.6
+  },
   "vo": [
-    { "beat": "meaning", "cue": "At slow speed" },
-    { "beat": "examples", "cue": "Trim all the way down" },
-    { "beat": "tip", "cue": "Bow up" },
-    { "beat": "cta", "cue": "Get on the list" }
+    {
+      "beat": "meaning",
+      "cue": "At slow speed"
+    },
+    {
+      "beat": "examples",
+      "cue": "Trim all the way down"
+    },
+    {
+      "beat": "tip",
+      "cue": "Bow up"
+    },
+    {
+      "beat": "cta",
+      "cue": "Get on the list"
+    }
   ]
 }

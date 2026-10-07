@@ -1,21 +1,48 @@
-name: Render lessons
-# Renders every lesson in lessons/ on demand (Actions tab -> Run workflow) or whenever a lesson file
-# changes on main. Finished MP4s are attached to the run as an artifact named "reels".
+name: Paint heroes and render lessons
+# Fires when a lesson, the template, or an asset changes on main, or by hand (Actions -> Run workflow).
+# 1. Any lesson with hero.prompt and no hero.image gets painted (FLUX.1 schnell on Replicate), cut out, committed.
+# 2. Every lesson (or the one you name) is rendered; MP4s are attached to the run as the "reels" artifact.
 on:
   workflow_dispatch:
     inputs:
       lesson:
         description: "Lesson id to render (or 'all')"
         default: "all"
+      repaint:
+        description: "Lesson id whose hero should be repainted (optional)"
+        default: ""
   push:
     branches: [main]
     paths: ["lessons/**", "src/**", "public/**"]
+permissions:
+  contents: write
 jobs:
-  render:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Paint missing heroes
+        env:
+          REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+        run: |
+          if [ -z "$REPLICATE_API_TOKEN" ]; then echo "no REPLICATE_API_TOKEN secret; skipping heroes"; exit 0; fi
+          pip install -q "rembg[cpu]" pillow numpy
+          if [ -n "${{ github.event.inputs.repaint }}" ]; then
+            python scripts/hero_gen.py --force "${{ github.event.inputs.repaint }}"
+          else
+            python scripts/hero_gen.py
+          fi
+          scripts/sync-assets.sh > /dev/null
+      - name: Commit painted heroes
+        run: |
+          git config user.name "at-the-helm bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A lessons public/heroes src/assets.generated.ts
+          git diff --cached --quiet || (git commit -m "Paint heroes [bot]" && git push)
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -23,8 +50,7 @@ jobs:
       - run: npm ci
       - run: npx remotion browser ensure
       - name: Render
-        run: |
-          scripts/render.sh "${{ github.event.inputs.lesson || 'all' }}"
+        run: scripts/render.sh "${{ github.event.inputs.lesson || 'all' }}"
       - uses: actions/upload-artifact@v4
         with:
           name: reels

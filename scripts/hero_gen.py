@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""Paint missing heroes with FLUX.1 schnell on Replicate, cut them out, and point the lesson at them.
+
+Runs in GitHub Actions (needs REPLICATE_API_TOKEN). For every lessons/*.json whose hero has a
+"prompt" but no "image", it:
+  1. builds the brand prompt (skeleton + subject sentence),
+  2. asks Replicate for one 16:9 PNG,
+  3. writes public/heroes/<num>-bg.png and a rembg cutout <num>-fg.png,
+  4. sets hero.kind = "image", hero.image, hero.cutout in the lesson JSON.
+Re-run with --force <lesson-id> to repaint one hero (bump "seed" in the lesson to get a different take).
+"""
+import io, json, os, subprocess, sys, time, urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SKELETON = (
+    "Hand-drawn ink and watercolor illustration, vintage field guide style, loose brush strokes, "
+    "soft paper texture. {subject} Warm afternoon light, small orange accents, clean composition, "
+    "lots of empty sky, no text, no letters, no logo."
+)
+MODEL = "black-forest-labs/flux-schnell"
+
+def replicate(prompt: str, seed: int | None, token: str) -> bytes:
+    body = {"input": {"prompt": prompt, "aspect_ratio": "16:9", "output_format": "png", "num_outputs": 1, "go_fast": True, "output_quality": 95}}
+    if seed is not None:
+        body["input"]["seed"] = seed
+    req = urllib.request.Request(
+        f"https://api.replicate.com/v1/models/{MODEL}/predictions",
+        data=json.dumps(body).encode(),
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json", "Prefer": "wait=60"},
+    )
+    with urllib.request.urlopen(req, timeout=120) as r:
+        pred = json.load(r)
+    # poll if not finished within the wait window
+    while pred.get("status") not in ("succeeded", "failed", "canceled"):
+        time.sleep(2)
+        req2 = urllib.request.Request(pred["urls"]["get"], headers={"Authorization": f"Bearer {token}"})
+        with urllib.request.urlopen(req2, timeout=60) as r:
+            pred = json.load(r)
+    if pred["status"] != "succeeded":
+        raise SystemExit(f"replicate failed: {pred.get('error')}")
+    out = pred["output"]
+    url = out[0] if isinstance(out, list) else out
+    with urllib.request.urlopen(url, timeout=120) as r:
+        return r.read()
+
+def main():
+    token = os.environ.get("REPLICATE_API_TOKEN")
+    if not token:
+        sys.exit("REPLICATE_API_TOKEN not set")
+    force = sys.argv[2] if len(sys.argv) > 2 and sys.argv[1] == "--force" else None
+    changed = []
+    for lp in sorted((ROOT / "lessons").glob("*.json")):
+        lesson = json.loads(lp.read_text())
+        hero = lesson.get("hero", {})
+        if not hero.get("prompt"):
+            continue
+        if hero.get("image") and force != lesson["id"]:
+            continue
+        num = lesson["number"]
+        prompt = SKELETON.format(subject=hero["prompt"].strip())
+        print(f"painting {lesson['id']}: {hero['prompt']}")
+        png = replicate(prompt, hero.get("seed"), token)
+        src = ROOT / "heroes-in"; src.mkdir(exist_ok=True)
+        (src / f"{num}.png").write_bytes(png)
+        subprocess.run([sys.executable, str(ROOT / "scripts" / "hero.py"), str(src / f"{num}.png"), num], check=True)
+        hero.update({"kind": "image", "image": f"heroes/{num}-bg.png", "cutout": f"heroes/{num}-fg.png"})
+        lesson["hero"] = hero
+        lp.write_text(json.dumps(lesson, indent=2) + "\n")
+        changed.append(lesson["id"])
+    print("painted:", changed or "nothing to do")
+
+if __name__ == "__main__":
+    main()

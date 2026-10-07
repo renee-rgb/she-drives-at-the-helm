@@ -6,7 +6,12 @@
   "cornerScript": "Know your Trim",
   "scriptLine": "Button down, bow down. Button up, bow up.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
-  "hero": { "kind": "line", "text": "Trim isn't a setting. It moves every time the water does." },
+  "hero": {
+    "kind": "line",
+    "text": "Trim isn't a setting. It moves every time the water does.",
+    "prompt": "A white runabout boat seen from the side on a calm lake, outboard motor tilted up, desert mountains behind.",
+    "seed": 7
+  },
   "meaning": {
     "label": "WHAT IT MEANS",
     "text": "Trim tilts the motor. That changes where the thrust points, and that moves the bow."
@@ -14,21 +19,53 @@
   "examples": {
     "label": "HOW TO USE IT",
     "items": [
-      { "icon": "arrow-down", "label": "Trim down: to get on plane" },
-      { "icon": "arrow-up", "label": "On plane: bump up until the bow lifts and the wheel lightens" },
-      { "icon": "waves", "label": "Bow bobbing: too much. Trim back down" },
-      { "icon": "gauge", "label": "Revs up, speed down: prop losing bite. Trim down" }
+      {
+        "icon": "arrow-down",
+        "label": "Trim down: to get on plane"
+      },
+      {
+        "icon": "arrow-up",
+        "label": "On plane: bump up until the bow lifts and the wheel lightens"
+      },
+      {
+        "icon": "waves",
+        "label": "Bow bobbing: too much. Trim back down"
+      },
+      {
+        "icon": "gauge",
+        "label": "Revs up, speed down: prop losing bite. Trim down"
+      }
     ]
   },
-  "tip": { "label": "QUICK TIP", "text": "Find it. Don't set it." },
+  "tip": {
+    "label": "QUICK TIP",
+    "text": "Find it. Don't set it."
+  },
   "cta": "Get on the list. Link in bio.",
-  "footnote": "SOURCES: BOATING MAGAZINE · DISCOVER BOATING",
+  "footnote": "SOURCES: BOATING MAGAZINE \u00b7 DISCOVER BOATING",
   "durationSeconds": 23,
-  "beats": { "meaning": 3.4, "examples": 6.4, "tip": 18.4, "cta": 20.6 },
+  "beats": {
+    "meaning": 3.4,
+    "examples": 6.4,
+    "tip": 18.4,
+    "cta": 20.6
+  },
   "vo": [
-    { "beat": "meaning", "cue": "Trim tilts the motor" },
-    { "beat": "examples", "cue": "Trim down" },
-    { "beat": "tip", "cue": "Find it" },
-    { "beat": "cta", "cue": "Get on the list" }
+    {
+      "beat": "meaning",
+      "cue": "Trim tilts the motor"
+    },
+    {
+      "beat": "examples",
+      "cue": "Trim down"
+    },
+    {
+      "beat": "tip",
+      "cue": "Find it"
+    },
+    {
+      "beat": "cta",
+      "cue": "Get on the list"
+    }
   ]
 }

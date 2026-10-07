@@ -47,7 +47,7 @@ export const Hero: React.FC<{ readonly t: number; readonly end: number; readonly
       </Stage>
     );
   }
-  if (lesson.hero.kind === "line") {
+  if (lesson.hero.kind === "line" || (lesson.hero.kind === "image" && !lesson.hero.image)) {
     const txt = lesson.hero.text ?? lesson.cornerScript;
     const w = Math.min(900, Math.round(txt.length * 72 * 0.4));
     return (
