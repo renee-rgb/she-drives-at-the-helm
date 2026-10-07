@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, Audio, staticFile, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { Sfx, ChromeSfx } from "./components/Sfx";
 import type { Lesson } from "./lesson";
 import { Paper } from "./components/Paper";
 import { Masthead } from "./components/Masthead";
@@ -22,11 +23,13 @@ export const AtTheHelmDiagram: React.FC<Lesson> = (lesson) => {
   const sceneAlpha = Math.min(prog(t, 0.3, 0.8), 1 - lin(t, b.tip - 0.3, b.tip));
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Audio
-        src={staticFile("sfx/ambient.wav")}
-        volume={(f) => interpolate(f, [0, 20, lesson.durationSeconds * fps - 40, lesson.durationSeconds * fps], [0, 0.22, 0.22, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
-      />
       <Paper />
+      <ChromeSfx ctaAt={b.cta} />
+      {cards.map((c, i) => (
+        <Sfx key={i} name="stamp" at={c.at + 0.05} volume={0.6} />
+      ))}
+      <Sfx name="stamp" at={b.tip + 0.08} />
+      <Sfx name="scratch" at={b.tip + 0.6} volume={0.5} />
       <div style={{ position: "absolute", top: 118, left: 44, rotate: "-7deg", opacity: prog(t, 1.4, 1.8) }}>
         <BrushLabel text={lesson.cornerTag} reveal={prog(t, 1.4, 2.0)} size={24} seed={9} width={330} />
       </div>

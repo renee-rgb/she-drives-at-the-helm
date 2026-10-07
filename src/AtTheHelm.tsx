@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, Audio, staticFile, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { Sfx, ChromeSfx } from "./components/Sfx";
 import type { Lesson } from "./lesson";
 import { Paper } from "./components/Paper";
 import { Masthead } from "./components/Masthead";
@@ -16,11 +17,23 @@ export const AtTheHelm: React.FC<Lesson> = (lesson) => {
   const b = lesson.beats;
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <Audio
-        src={staticFile("sfx/ambient.wav")}
-        volume={(f) => interpolate(f, [0, 20, lesson.durationSeconds * fps - 40, lesson.durationSeconds * fps], [0, 0.22, 0.22, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
-      />
       <Paper />
+      <ChromeSfx ctaAt={b.cta} />
+      {/* beat sounds: label stamps, rows ticking in with a short pen scratch, tip underline */}
+      <Sfx name="stamp" at={b.meaning + 0.08} />
+      <Sfx name="stamp" at={b.examples + 0.08} />
+      {lesson.examples.items.map((_, i) => {
+        const stagger = Math.min(2.4, (b.tip - b.examples - 2.5) / lesson.examples.items.length);
+        const t0 = b.examples + 0.5 + i * stagger;
+        return (
+          <React.Fragment key={i}>
+            <Sfx name="tick" at={t0} volume={0.45} />
+            <Sfx name="scratch-s" at={t0 + 0.15} volume={0.4} />
+          </React.Fragment>
+        );
+      })}
+      <Sfx name="stamp" at={b.tip + 0.08} />
+      <Sfx name="scratch" at={b.tip + 0.6} volume={0.5} />
       {/* corner decorations, like the carousel posters */}
       <div style={{ position: "absolute", top: 118, left: 44, rotate: "-7deg", opacity: prog(t, 1.4, 1.8) }}>
         <BrushLabel text={lesson.cornerTag} reveal={prog(t, 1.4, 2.0)} size={24} seed={9} width={330} />
