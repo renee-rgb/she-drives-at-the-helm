@@ -15,7 +15,7 @@ src, num = Path(sys.argv[1]), sys.argv[2]
 out = Path(__file__).resolve().parent.parent / "public" / "heroes"
 out.mkdir(parents=True, exist_ok=True)
 im = Image.open(src).convert("RGB")
-im = ImageOps.fit(im, (1920, 1040), Image.LANCZOS, centering=(0.5, 0.55))
+im = ImageOps.fit(im, (1600, 1200), Image.LANCZOS, centering=(0.5, 0.5))
 im.save(out / f"{num}-bg.png")
 buf = io.BytesIO(); im.save(buf, "PNG")
 fg = remove(buf.getvalue(), session=new_session("u2netp"))

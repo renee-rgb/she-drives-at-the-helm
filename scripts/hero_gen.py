@@ -15,16 +15,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SKELETON = (
     "Hand-illustrated editorial boating illustration, like a page from a stylish vintage boating handbook: "
-    "slightly inked black outlines, loose watercolor and marker texture, believable proportions, realistic enough "
-    "to teach from. Palette: pale blush pink paper background, white boat, aqua turquoise water with loose "
-    "watercolor texture and energetic white wakes, hot magenta accents, black ink, orange only where the subject "
-    "needs it. {subject} Subject centered and filling the frame, simple composition, imperfect hand-drawn edges, "
-    "no airbrush, no glossy 3D shading, no photorealism, no text, no letters, no logo."
+    "slightly inked black outlines, watercolor and marker texture with confident shapes, believable proportions, "
+    "realistic enough to teach from. A full painted scene edge to edge with no empty paper: painted sky with soft "
+    "clouds, aqua turquoise water filling the lower half with texture, reflections and energetic white wakes, a "
+    "detailed shoreline with mountains, trees and small docks. Palette: aqua water, white boat, hot magenta and "
+    "blush pink accents, black ink, warm orange only where the subject needs it. {subject} Subject large and "
+    "centered, imperfect hand-drawn edges, no airbrush, no glossy 3D shading, no photorealism, no text, no letters, no logo."
 )
 MODEL = "black-forest-labs/flux-schnell"
 
 def replicate(prompt: str, seed: int | None, token: str) -> bytes:
-    body = {"input": {"prompt": prompt, "aspect_ratio": "16:9", "output_format": "png", "num_outputs": 1, "go_fast": True, "output_quality": 95}}
+    body = {"input": {"prompt": prompt, "aspect_ratio": "4:3", "output_format": "png", "num_outputs": 1, "go_fast": True, "output_quality": 95}}
     if seed is not None:
         body["input"]["seed"] = seed
     req = urllib.request.Request(

@@ -8,7 +8,7 @@
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
     "kind": "image",
-    "prompt": "A chrome marine horn mounted on the bow of a white boat, calm blue lake and desert mountains behind.",
+    "prompt": "A white runabout boat on the water seen from behind at an angle, a chrome horn on its bow, a woman at the helm, lake and desert mountains behind.",
     "seed": 7,
     "image": "heroes/07-bg.png",
     "cutout": "heroes/07-fg.png"
