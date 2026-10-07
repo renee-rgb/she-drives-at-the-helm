@@ -1,0 +1,29 @@
+{
+  "id": "07-sound-signals",
+  "number": "07",
+  "title": "KNOW THE HORN",
+  "subhead": "FIVE SIGNALS. ONE SECOND EACH.",
+  "cornerScript": "Know the Horn",
+  "scriptLine": "Short is a second. Long is four to six.",
+  "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
+  "hero": { "kind": "blast-chart" },
+  "meaning": {
+    "label": "WHAT IT MEANS",
+    "text": "Boats talk with a horn. The whole language is five lines."
+  },
+  "examples": {
+    "label": "THE SIGNALS",
+    "items": [
+      { "icon": "blast:s", "label": "One short: I'll keep you on my left" },
+      { "icon": "blast:ss", "label": "Two short: I'll keep you on my right" },
+      { "icon": "blast:sss", "label": "Three short: I'm backing up" },
+      { "icon": "blast:L", "label": "One long: I'm leaving the dock" },
+      { "icon": "blast:sssss", "label": "Five short, fast: danger" }
+    ]
+  },
+  "tip": { "label": "QUICK TIP", "text": "Five short = danger" },
+  "cta": "Get on the list. Link in bio.",
+  "footnote": "US INLAND RULES · 33 CFR 83.32 & 83.34",
+  "durationSeconds": 23,
+  "beats": { "meaning": 3.2, "examples": 6.0, "tip": 18.6, "cta": 20.6 }
+}
