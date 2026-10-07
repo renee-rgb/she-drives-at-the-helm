@@ -7,10 +7,12 @@
   "scriptLine": "Button down, bow down. Button up, bow up.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
-    "kind": "line",
+    "kind": "image",
     "text": "Trim isn't a setting. It moves every time the water does.",
     "prompt": "A white runabout boat seen from the side on a calm lake, its outboard motor tilted up, a woman at the helm, desert mountains and a small dock behind.",
-    "seed": 7
+    "seed": 7,
+    "image": "heroes/08-bg.png",
+    "cutout": "heroes/08-fg.png"
   },
   "meaning": {
     "label": "WHAT IT MEANS",
