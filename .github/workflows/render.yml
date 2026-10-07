@@ -30,7 +30,7 @@ jobs:
           REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
         run: |
           if [ -z "$REPLICATE_API_TOKEN" ]; then echo "::warning::no REPLICATE_API_TOKEN secret; skipping heroes"; exit 0; fi
-          pip install -q "rembg[cpu]" pillow numpy
+          pip install -q "rembg[cpu]" pillow numpy || { echo "::error::pip install failed"; exit 1; }
           if [ -n "${{ github.event.inputs.repaint }}" ]; then
             python scripts/hero_gen.py --force "${{ github.event.inputs.repaint }}"
           else

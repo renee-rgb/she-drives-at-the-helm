@@ -71,4 +71,15 @@ def main():
     print("painted:", changed or "nothing to do")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:  # surface the reason as a GitHub annotation (logs are not always reachable)
+        import urllib.error
+        detail = ""
+        if isinstance(e, urllib.error.HTTPError):
+            try:
+                detail = e.read().decode()[:400]
+            except Exception:
+                pass
+        print(f"::error::hero_gen failed: {type(e).__name__}: {e} {detail}")
+        raise
