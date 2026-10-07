@@ -1,0 +1,32 @@
+name: Render lessons
+# Renders every lesson in lessons/ on demand (Actions tab -> Run workflow) or whenever a lesson file
+# changes on main. Finished MP4s are attached to the run as an artifact named "reels".
+on:
+  workflow_dispatch:
+    inputs:
+      lesson:
+        description: "Lesson id to render (or 'all')"
+        default: "all"
+  push:
+    branches: [main]
+    paths: ["lessons/**", "src/**", "public/**"]
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx remotion browser ensure
+      - name: Render
+        run: |
+          sed -i 's#^Config.setBrowserExecutable.*##; /chrome-linux\/headless_shell",/d; /^);$/d' remotion.config.ts
+          scripts/render.sh "${{ github.event.inputs.lesson || 'all' }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reels
+          path: out/*.mp4

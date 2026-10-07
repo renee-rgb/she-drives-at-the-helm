@@ -19,7 +19,7 @@ export const BrushLabel: React.FC<{
   return (
     <div style={{ position: "relative", width: w, height: h, clipPath: `inset(0 ${(1 - reveal) * 100}% 0 0)` }}>
       {brush ? (
-        <Img src={staticFile(brush)} style={{ position: "absolute", left: -size * 0.3, top: -h * 0.25, width: w + size * 0.6, height: h * 1.5, objectFit: "fill", opacity: 0.95, mixBlendMode: "multiply" }} />
+        <Img src={staticFile(brush)} style={{ position: "absolute", left: -size * 0.3, top: -h * 0.25, width: w + size * 0.6, height: h * 1.5, objectFit: "fill", opacity: 0.92 }} />
       ) : (
       <svg width={w} height={h} style={{ position: "absolute", inset: 0 }}>
         <defs>

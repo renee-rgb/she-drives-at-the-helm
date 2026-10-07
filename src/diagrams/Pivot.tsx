@@ -28,56 +28,53 @@ for (let a = 0; a < 0.6; a += 0.0005) {
   if (CX0 + rot(-BW / 2 - 6, BL / 2, a)[0] <= DOCK + 2) { TH = a; break; }
 }
 
-const Boat: React.FC<{ readonly motorA: number; readonly fender: boolean; readonly thrust: number }> = ({ motorA, fender, thrust }) => (
-  <g>
-    {/* shadow wash */}
-    <rect x={-BW / 2 - 2 + 14} y={-BL / 2 + 16} width={BW + 4} height={BL} rx={70} fill={C.ink} opacity={0.10} filter="url(#wash)" />
-    {/* tubes */}
-    {[-BW / 2 - 8, -22, BW / 2 - 36].map((x, i) => (
-      <g key={i} filter="url(#ink)">
-        <rect x={x} y={-BL / 2} width={44} height={BL - 16} rx={22} fill="#fff" stroke={C.ink} strokeWidth={3.5} />
-        <path d={`M ${x + 6} ${-BL / 2 + 30} v ${BL - 80}`} stroke={C.ink} strokeWidth={1.6} opacity={0.35} />
+const Boat: React.FC<{ readonly motorA: number; readonly fender: boolean; readonly thrust: number }> = ({ motorA, fender, thrust }) => {
+  const hw = BW / 2, hl = BL / 2;
+  // generic V-hull runabout: pointed bow, flared sides, squared transom
+  const hull = `M 0 ${-hl} C ${hw * 0.55} ${-hl + 60} ${hw} ${-hl + 170} ${hw} ${-hl + 230} L ${hw} ${hl - 30} Q ${hw} ${hl} ${hw - 30} ${hl} L ${-hw + 30} ${hl} Q ${-hw} ${hl} ${-hw} ${hl - 30} L ${-hw} ${-hl + 230} C ${-hw} ${-hl + 170} ${-hw * 0.55} ${-hl + 60} 0 ${-hl} Z`;
+  const inner = `M 0 ${-hl + 44} C ${hw * 0.42} ${-hl + 90} ${hw - 22} ${-hl + 180} ${hw - 22} ${-hl + 240} L ${hw - 22} ${hl - 40} Q ${hw - 22} ${hl - 22} ${hw - 44} ${hl - 22} L ${-hw + 44} ${hl - 22} Q ${-hw + 22} ${hl - 22} ${-hw + 22} ${hl - 40} L ${-hw + 22} ${-hl + 240} C ${-hw + 22} ${-hl + 180} ${-hw * 0.42} ${-hl + 90} 0 ${-hl + 44} Z`;
+  return (
+    <g>
+      <path d={hull} transform="translate(14 16)" fill={C.ink} opacity={0.10} filter="url(#wash)" />
+      <path d={hull} fill="#fff" stroke={C.ink} strokeWidth={4} filter="url(#ink)" />
+      <path d={inner} fill="#fbe4ee" filter="url(#wash)" />
+      <path d={inner} fill="none" stroke={C.ink} strokeWidth={2.2} opacity={0.6} filter="url(#ink)" />
+      {/* bow deck hatch line + cleat */}
+      <path d={`M ${-hw + 40} ${-hl + 150} Q 0 ${-hl + 120} ${hw - 40} ${-hl + 150}`} stroke={C.ink} strokeWidth={2.5} fill="none" opacity={0.6} filter="url(#ink)" />
+      <g filter="url(#ink)" fill={C.highlight} stroke={C.ink} strokeWidth={2.5}>
+        <rect x={-hw + 34} y={-20} width={40} height={120} rx={10} />
+        <rect x={hw - 74} y={-20} width={40} height={120} rx={10} />
+        <rect x={-hw + 34} y={hl - 86} width={BW - 68} height={34} rx={10} />
       </g>
-    ))}
-    {/* deck wash + outline */}
-    <rect x={-BW / 2 + 4} y={-BL / 2 + 20} width={BW - 8} height={BL - 56} rx={28} fill="#fbe4ee" filter="url(#wash)" />
-    <rect x={-BW / 2 + 4} y={-BL / 2 + 20} width={BW - 8} height={BL - 56} rx={28} fill="none" stroke={C.ink} strokeWidth={4} filter="url(#ink)" />
-    <rect x={-BW / 2 + 18} y={-BL / 2 + 36} width={BW - 36} height={BL - 88} rx={20} fill="none" stroke={C.ink} strokeWidth={1.8} opacity={0.5} filter="url(#ink)" />
-    {/* seats */}
-    <g filter="url(#ink)" fill={C.highlight} stroke={C.ink} strokeWidth={2.5}>
-      <rect x={-BW / 2 + 28} y={-BL / 2 + 50} width={BW - 56} height={36} rx={10} />
-      <rect x={-BW / 2 + 28} y={20} width={36} height={110} rx={10} />
-      <rect x={BW / 2 - 64} y={20} width={36} height={110} rx={10} />
-      <rect x={-BW / 2 + 28} y={BL / 2 - 86} width={BW - 56} height={32} rx={10} />
-    </g>
-    {/* helm + wheel */}
-    <g filter="url(#ink)">
-      <rect x={BW / 2 - 72} y={-110} width={44} height={52} rx={8} fill={C.ink} />
-      <circle cx={BW / 2 - 50} cy={-82} r={11} fill="none" stroke={C.pink} strokeWidth={3.5} />
-      <circle cx={BW / 2 - 50} cy={-30} r={16} fill={C.highlight} stroke={C.ink} strokeWidth={2.5} />
-    </g>
-    {/* bow fender */}
-    {fender && (
+      {/* windshield + helm + wheel */}
+      <path d={`M ${-hw + 26} ${-hl + 215} Q 0 ${-hl + 190} ${hw - 26} ${-hl + 215}`} stroke={C.ink} strokeWidth={5} fill="none" filter="url(#ink)" />
       <g filter="url(#ink)">
-        <ellipse cx={-BW / 2 - 24} cy={-BL / 2 + 90} rx={15} ry={34} fill="#fff" stroke={C.ink} strokeWidth={3} />
-        <path d={`M ${-BW / 2 - 24} ${-BL / 2 + 56} l 18 -22`} stroke={C.ink} strokeWidth={2.5} />
+        <rect x={hw - 72} y={-hl + 230} width={44} height={50} rx={8} fill={C.ink} />
+        <circle cx={hw - 50} cy={-hl + 255} r={11} fill="none" stroke={C.pink} strokeWidth={3.5} />
+        <circle cx={hw - 50} cy={-hl + 305} r={16} fill={C.highlight} stroke={C.ink} strokeWidth={2.5} />
       </g>
-    )}
-    {/* outboard: bracket + cowl + lower unit pivoting */}
-    <rect x={-30} y={BL / 2 - 34} width={60} height={30} rx={6} fill="#ddd" stroke={C.ink} strokeWidth={2.5} filter="url(#ink)" />
-    <g transform={`translate(0 ${MOTOR_Y}) rotate(${(motorA * 180) / Math.PI})`}>
-      <rect x={-26} y={-18} width={52} height={64} rx={12} fill={C.orange} stroke={C.ink} strokeWidth={3.5} filter="url(#ink)" />
-      <rect x={-7} y={44} width={14} height={30} rx={5} fill={C.ink} filter="url(#ink)" />
-      {thrust > 0 && (
-        <g opacity={thrust} filter="url(#ink)" stroke="#1c7f99" strokeWidth={3} fill="none">
-          <path d="M -26 86 q 13 -10 26 0 t 26 0" />
-          <path d="M -34 104 q 17 -12 34 0 t 34 0" opacity={0.7} />
-          <path d="M -42 122 q 21 -14 42 0 t 42 0" opacity={0.4} />
+      {fender && (
+        <g filter="url(#ink)">
+          <ellipse cx={-hw - 14} cy={-hl + 200} rx={15} ry={34} fill="#fff" stroke={C.ink} strokeWidth={3} />
+          <path d={`M ${-hw - 14} ${-hl + 166} l 20 -22`} stroke={C.ink} strokeWidth={2.5} />
         </g>
       )}
+      {/* outboard */}
+      <rect x={-30} y={hl - 10} width={60} height={22} rx={6} fill="#ddd" stroke={C.ink} strokeWidth={2.5} filter="url(#ink)" />
+      <g transform={`translate(0 ${MOTOR_Y + 12}) rotate(${(motorA * 180) / Math.PI})`}>
+        <rect x={-26} y={-18} width={52} height={64} rx={12} fill={C.orange} stroke={C.ink} strokeWidth={3.5} filter="url(#ink)" />
+        <rect x={-7} y={44} width={14} height={30} rx={5} fill={C.ink} filter="url(#ink)" />
+        {thrust > 0 && (
+          <g opacity={thrust} filter="url(#ink)" stroke="#1c7f99" strokeWidth={3} fill="none">
+            <path d="M -26 86 q 13 -10 26 0 t 26 0" />
+            <path d="M -34 104 q 17 -12 34 0 t 34 0" opacity={0.7} />
+            <path d="M -42 122 q 21 -14 42 0 t 42 0" opacity={0.4} />
+          </g>
+        )}
+      </g>
     </g>
-  </g>
-);
+  );
+};
 
 const Hand: React.FC<{ readonly x: number; readonly y: number; readonly alpha: number }> = ({ x, y, alpha }) => (
   <g transform={`translate(${x} ${y}) rotate(90)`} opacity={alpha} filter="url(#ink)">
