@@ -7,9 +7,11 @@
   "scriptLine": "Short is a second. Long is four to six.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
-    "kind": "blast-chart",
+    "kind": "image",
     "prompt": "A chrome marine horn mounted on the bow of a white boat, calm blue lake and desert mountains behind.",
-    "seed": 7
+    "seed": 7,
+    "image": "heroes/07-bg.png",
+    "cutout": "heroes/07-fg.png"
   },
   "meaning": {
     "label": "WHAT IT MEANS",
