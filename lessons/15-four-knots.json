@@ -1,0 +1,38 @@
+{
+  "id": "15-four-knots",
+  "number": "15",
+  "title": "FOUR KNOTS\nRUN THE BOAT.",
+  "subhead": "LEARN THESE. SKIP THE REST.",
+  "cornerScript": "Know your Knots",
+  "scriptLine": "Tie it till your hands know it.",
+  "cornerTag": "SAFE WATERS. BETTER BOATERS.",
+  "hero": {
+    "kind": "image",
+    "prompt": "A close view of a white dock cleat on the bow of a white runabout with a dock line tied around it, a wooden dock beside it, aqua water and desert mountains behind.",
+    "seed": 7
+  },
+  "meaning": {
+    "label": "WHAT IT MEANS",
+    "text": "Each knot has one job. Dock, loop, fender, piling. Four knots cover almost every line you'll touch."
+  },
+  "examples": {
+    "label": "THE FOUR",
+    "items": [
+      { "icon": "anchor", "label": "Cleat hitch: wrap the base, cross the horns, lock it. No extra wraps" },
+      { "icon": "lasso", "label": "Bowline: a fixed loop that won't slip and still unties" },
+      { "icon": "link-2", "label": "Clove hitch: fenders on a rail. Quick, adjustable, temporary" },
+      { "icon": "rotate-cw", "label": "Round turn, two half hitches: pilings and rings. The one that holds" }
+    ]
+  },
+  "tip": { "label": "QUICK TIP", "text": "Wrap. Cross. Lock." },
+  "cta": "Get on the list. Link in bio.",
+  "footnote": "SOURCES: ACE BOATER · AM NAUTICAL",
+  "durationSeconds": 23,
+  "beats": { "meaning": 3.4, "examples": 6.4, "tip": 18.4, "cta": 20.6 },
+  "vo": [
+    { "beat": "meaning", "cue": "Each knot has one job" },
+    { "beat": "examples", "cue": "Cleat hitch" },
+    { "beat": "tip", "cue": "Wrap" },
+    { "beat": "cta", "cue": "Get on the list" }
+  ]
+}
