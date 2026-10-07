@@ -5,18 +5,19 @@ import { Underline } from "./Brush";
 
 export const Headline: React.FC<{ readonly t: number; readonly title: string; readonly subhead: string }> = ({ t, title, subhead }) => {
   const k = pop(t, 0.5, 1.1);
+  const lines = title.split("\n").length;
   return (
-    <div style={{ position: "absolute", top: 430, left: 0, width: 1080, textAlign: "center" }}>
+    <div style={{ position: "absolute", top: lines > 1 ? 418 : 430, left: 0, width: 1080, textAlign: "center" }}>
       <div
         style={{
           fontFamily: F.display,
-          fontSize: 190,
-          lineHeight: 0.9,
+          fontSize: lines > 1 ? 122 : 190,
+          lineHeight: 0.92,
           color: C.deep,
           letterSpacing: 2,
           opacity: prog(t, 0.5, 0.75),
           scale: String(1.35 - 0.35 * k),
-          whiteSpace: "nowrap",
+          whiteSpace: lines > 1 ? "pre-line" : "nowrap",
         }}
       >
         {title}

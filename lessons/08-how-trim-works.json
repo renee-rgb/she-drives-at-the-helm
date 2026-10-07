@@ -1,14 +1,14 @@
 {
   "id": "08-how-trim-works",
   "number": "08",
-  "title": "TRIM",
-  "subhead": "THE BUTTON THAT MOVES YOUR BOW",
+  "title": "THE BUTTON\nNOBODY EXPLAINED.",
+  "subhead": "TRIM. IT MOVES YOUR BOW.",
   "cornerScript": "Know your Trim",
   "scriptLine": "Button down, bow down. Button up, bow up.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
     "kind": "image",
-    "text": "Trim isn't a setting. It moves every time the water does.",
+    "text": "There's a button on your throttle nobody explains.",
     "prompt": "A white runabout boat seen from the side on a calm lake, its outboard motor tilted up, a woman at the helm, desert mountains and a small dock behind.",
     "seed": 7,
     "image": "heroes/08-bg.png",
@@ -55,7 +55,7 @@
   "vo": [
     {
       "beat": "meaning",
-      "cue": "Trim tilts the motor"
+      "cue": "tilts the motor"
     },
     {
       "beat": "examples",
