@@ -36,7 +36,7 @@ export const Hero: React.FC<{ readonly t: number; readonly end: number; readonly
         <div style={{ position: "absolute", left: 60, top: 0, width: 960, height: 720, overflow: "hidden", borderRadius: 30, boxShadow: "0 24px 60px rgba(60,10,40,0.18)", rotate: "-1.2deg" }}>
           <Img src={staticFile(lesson.hero.image)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", scale: String(z), translate: `${-18 * drift}px ${8 * drift}px` }} />
           {lesson.hero.cutout && (
-            <Img src={staticFile(lesson.hero.cutout)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", scale: String(1 + 0.11 * drift), translate: `${10 * drift}px ${-6 * drift}px`, filter: "drop-shadow(0 18px 22px rgba(30,10,30,0.35))" }} />
+            <Img src={staticFile(lesson.hero.cutout)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", scale: String(z + 0.012 * drift), translate: `${-14 * drift}px ${5 * drift}px`, filter: "drop-shadow(0 10px 14px rgba(30,10,30,0.22))" }} />
           )}
           <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 90px rgba(120,30,80,0.18)" }} />
         </div>
