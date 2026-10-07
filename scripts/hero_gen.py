@@ -71,7 +71,9 @@ def main():
         hero = lesson.get("hero", {})
         if not hero.get("prompt"):
             continue
-        if hero.get("image") and force != lesson["id"]:
+        if force and lesson["id"] != force:
+            continue  # --force <id> paints only that lesson
+        if hero.get("image") and not force:
             continue
         num = lesson["number"]
         prompt = SKELETON.format(subject=hero["prompt"].strip())
