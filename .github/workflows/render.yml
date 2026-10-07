@@ -24,7 +24,6 @@ jobs:
       - run: npx remotion browser ensure
       - name: Render
         run: |
-          sed -i 's#^Config.setBrowserExecutable.*##; /chrome-linux\/headless_shell",/d; /^);$/d' remotion.config.ts
           scripts/render.sh "${{ github.event.inputs.lesson || 'all' }}"
       - uses: actions/upload-artifact@v4
         with:
