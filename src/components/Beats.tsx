@@ -197,6 +197,5 @@ export const Footer: React.FC<{ readonly t: number; readonly hide: number; reado
   <div style={{ position: "absolute", top: 1660, left: 0, width: 1080, textAlign: "center", opacity: prog(t, 1.6, 2.0) * (1 - lin(t, hide - 0.3, hide)) }}>
     <div style={{ fontFamily: F.display, fontSize: 54, color: C.ink, letterSpacing: 2 }}>SHE DRIVES</div>
     <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 17, letterSpacing: 7, color: C.char, marginTop: -2 }}>WOMEN ON THE WATER</div>
-    <div style={{ fontFamily: F.body, fontWeight: 500, fontSize: 15, letterSpacing: 3, color: C.deep, marginTop: 10, opacity: 0.8 }}>{lesson.footnote}</div>
   </div>
 );

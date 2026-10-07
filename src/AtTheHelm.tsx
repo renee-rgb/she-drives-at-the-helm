@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, staticFile, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import type { Lesson } from "./lesson";
 import { Paper } from "./components/Paper";
 import { Masthead } from "./components/Masthead";
@@ -16,6 +16,10 @@ export const AtTheHelm: React.FC<Lesson> = (lesson) => {
   const b = lesson.beats;
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
+      <Audio
+        src={staticFile("sfx/ambient.wav")}
+        volume={(f) => interpolate(f, [0, 20, lesson.durationSeconds * fps - 40, lesson.durationSeconds * fps], [0, 0.22, 0.22, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
+      />
       <Paper />
       {/* corner decorations, like the carousel posters */}
       <div style={{ position: "absolute", top: 118, left: 44, rotate: "-7deg", opacity: prog(t, 1.4, 1.8) }}>

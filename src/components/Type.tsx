@@ -16,7 +16,7 @@ export const Headline: React.FC<{ readonly t: number; readonly title: string; re
           color: C.deep,
           letterSpacing: 2,
           opacity: prog(t, 0.5, 0.75),
-          scale: String(1.35 - 0.35 * k),
+          scale: String(lines > 1 ? 1.12 - 0.12 * k : 1.35 - 0.35 * k),
           whiteSpace: lines > 1 ? "pre-line" : "nowrap",
         }}
       >
