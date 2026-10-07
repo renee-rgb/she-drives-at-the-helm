@@ -14,9 +14,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKELETON = (
-    "Hand-drawn ink and watercolor illustration, vintage field guide style, loose brush strokes, "
-    "soft paper texture. {subject} Warm afternoon light, small orange accents, clean composition, "
-    "lots of empty sky, no text, no letters, no logo."
+    "Vintage screen-printed travel poster illustration, gouache and ink, flat bold shapes with hard edges, "
+    "visible paper grain and slight print misregistration, limited palette of cream paper, deep ink outlines, "
+    "warm orange accents, two flat blues for water, a touch of pink. {subject} Subject centered and filling "
+    "the frame, strong silhouette, simple sky, no gradients, no airbrush, no photorealism, no text, no letters, no logo."
 )
 MODEL = "black-forest-labs/flux-schnell"
 
