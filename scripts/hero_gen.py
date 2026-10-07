@@ -9,7 +9,7 @@ Runs in GitHub Actions (needs REPLICATE_API_TOKEN). For every lessons/*.json who
   4. sets hero.kind = "image", hero.image, hero.cutout in the lesson JSON.
 Re-run with --force <lesson-id> to repaint one hero (bump "seed" in the lesson to get a different take).
 """
-import io, json, os, subprocess, sys, time, urllib.request
+import io, json, os, subprocess, sys, time, urllib.error, urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,8 +29,24 @@ def replicate(prompt: str, seed: int | None, token: str) -> bytes:
         data=json.dumps(body).encode(),
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json", "Prefer": "wait=60"},
     )
-    with urllib.request.urlopen(req, timeout=120) as r:
-        pred = json.load(r)
+    pred = None
+    for attempt in range(8):  # low-balance accounts are throttled to ~1 request at a time
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                pred = json.load(r)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code != 429:
+                raise
+            wait = 12
+            try:
+                wait = int(json.load(e).get("retry_after", 12)) + 2
+            except Exception:
+                pass
+            print(f"throttled, retrying in {wait}s")
+            time.sleep(wait)
+    if pred is None:
+        raise SystemExit("replicate kept throttling")
     # poll if not finished within the wait window
     while pred.get("status") not in ("succeeded", "failed", "canceled"):
         time.sleep(2)
@@ -68,6 +84,7 @@ def main():
         lesson["hero"] = hero
         lp.write_text(json.dumps(lesson, indent=2) + "\n")
         changed.append(lesson["id"])
+        time.sleep(12)
     print("painted:", changed or "nothing to do")
 
 if __name__ == "__main__":
