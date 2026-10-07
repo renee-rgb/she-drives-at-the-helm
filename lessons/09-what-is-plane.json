@@ -7,10 +7,12 @@
   "scriptLine": "Slow: pushing water. Fast: riding on it.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
-    "kind": "line",
+    "kind": "image",
     "text": "There's a speed where your boat stops pushing water and starts riding on it.",
     "prompt": "A white runabout up on plane, bow lifted, white spray behind, calm lake and desert mountains.",
-    "seed": 7
+    "seed": 7,
+    "image": "heroes/09-bg.png",
+    "cutout": "heroes/09-fg.png"
   },
   "meaning": {
     "label": "WHAT IT MEANS",

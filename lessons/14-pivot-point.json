@@ -7,9 +7,11 @@
   "scriptLine": "A boat doesn't slide. It pivots.",
   "cornerTag": "SAME WATERS. BRIGHTER BOATERS.",
   "hero": {
-    "kind": "line",
+    "kind": "image",
     "prompt": "A white runabout tied alongside a wooden dock, seen from above at an angle, calm water, mountains behind.",
-    "seed": 7
+    "seed": 7,
+    "image": "heroes/14-bg.png",
+    "cutout": "heroes/14-fg.png"
   },
   "meaning": {
     "label": "",
