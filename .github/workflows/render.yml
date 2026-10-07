@@ -29,7 +29,7 @@ jobs:
         env:
           REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
         run: |
-          if [ -z "$REPLICATE_API_TOKEN" ]; then echo "no REPLICATE_API_TOKEN secret; skipping heroes"; exit 0; fi
+          if [ -z "$REPLICATE_API_TOKEN" ]; then echo "::warning::no REPLICATE_API_TOKEN secret; skipping heroes"; exit 0; fi
           pip install -q "rembg[cpu]" pillow numpy
           if [ -n "${{ github.event.inputs.repaint }}" ]; then
             python scripts/hero_gen.py --force "${{ github.event.inputs.repaint }}"
@@ -41,8 +41,9 @@ jobs:
         run: |
           git config user.name "at-the-helm bot"
           git config user.email "bot@users.noreply.github.com"
-          git add -A lessons public/heroes src/assets.generated.ts
-          git diff --cached --quiet || (git commit -m "Paint heroes [bot]" && git push)
+          git add -A lessons src/assets.generated.ts
+          [ -d public/heroes ] && git add -A public/heroes
+          if git diff --cached --quiet; then echo "nothing painted"; else git commit -m "Paint heroes [bot]" && git push; fi
       - uses: actions/setup-node@v4
         with:
           node-version: 22
